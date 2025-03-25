@@ -1,1 +1,29 @@
-chào đây là đức tài trong file txt 
+import requests
+
+def get_github_repos(username):
+    """Lấy danh sách repository từ GitHub API."""
+    url = f"https://api.github.com/users/{username}/repos"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        repos = response.json()
+        return [repo["name"] for repo in repos]
+    else:
+        print(f"Lỗi: Không thể lấy dữ liệu (Mã lỗi: {response.status_code})")
+        return None
+
+def main():
+    """Chương trình chính."""
+    print("🔹 Chào mừng đến với trình tìm kiếm repository GitHub! 🔹")
+    username = input("Nhập tên người dùng GitHub: ")
+
+    repos = get_github_repos(username)
+    if repos:
+        print(f"\n📌 Danh sách repository của {username}:")
+        for idx, repo in enumerate(repos, start=1):
+            print(f"{idx}. {repo}")
+    else:
+        print("⚠ Không tìm thấy repository nào.")
+
+if __name__ == "__main__":
+    main()
